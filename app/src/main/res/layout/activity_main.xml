@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="dag.servegameteller.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/parametre"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:text="Spillere" />
+
+            <AutoCompleteTextView
+                android:id="@+id/spillerAnavn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:completionThreshold="1"
+                android:inputType="textCapSentences" />
+
+            <AutoCompleteTextView
+                android:id="@+id/spillerBnavn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:completionThreshold="1"
+                android:inputType="textCapSentences" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:text="Begynner" />
+
+            <RadioGroup
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/spillerAbegynner"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/spillerBbegynner"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content" />
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/parametre">
+
+        <Button
+            android:id="@+id/startSpill"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:text="Spill" />
+
+        <LinearLayout
+            android:id="@+id/underSpill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/vantEgetServegame"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:text="(vant eget)" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:text="Resultat" />
+
+                <Spinner
+                    android:id="@+id/gameVunnetSpillerA"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown" />
+
+                <Spinner
+                    android:id="@+id/gameVunnetSpillerB"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/spillFerdig"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="Spill ferdig" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
