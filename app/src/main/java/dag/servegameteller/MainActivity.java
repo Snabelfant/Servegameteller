@@ -80,8 +80,10 @@ private    String spillerAnavn;
         vantEgetServegameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (System.currentTimeMillis() - sisteServegameVunnetKlikkTid < 5000) {
-                    Toast.makeText(MainActivity.this, "Minst 5s mellom klikkene", Toast.LENGTH_SHORT).show();
+                long tidSidenSisteServegameVunnetKlikk = System.currentTimeMillis() - sisteServegameVunnetKlikkTid;
+                long mintid = 60000;
+                if (tidSidenSisteServegameVunnetKlikk < mintid) {
+                    Toast.makeText(MainActivity.this, "Minst 1 min mellom klikkene (" + ((mintid - tidSidenSisteServegameVunnetKlikk) / 1000) + "s igjen)", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
