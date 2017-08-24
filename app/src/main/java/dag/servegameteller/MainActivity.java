@@ -1,7 +1,13 @@
 package dag.servegameteller;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
@@ -31,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private int egneServeGameVunnetSåLangtA;
     private Spillresultat spillresultat;
     private long sisteServegameVunnetKlikkTid;
-private    String spillerAnavn;
+    private String spillerAnavn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +94,7 @@ private    String spillerAnavn;
                     return;
                 }
 
-                if (gameVunnetSpillerASpinner.getSelectedItemId() > 0  || gameVunnetSpillerBSpinner.getSelectedItemId() > 0) {
+                if (gameVunnetSpillerASpinner.getSelectedItemId() > 0 || gameVunnetSpillerBSpinner.getSelectedItemId() > 0) {
                     Toast.makeText(MainActivity.this, "Ikke når skrevet resultat", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -189,7 +196,8 @@ private    String spillerAnavn;
     }
 
     public void menuSelectSummary(MenuItem item) {
-        Toast.makeText(this, "Resyme", Toast.LENGTH_LONG).show();
+        ResyméDialogFragment resyméDialogFragment = new ResyméDialogFragment();
+        resyméDialogFragment.show(getFragmentManager(), "Oppsummering");
     }
 
     public void menuSelectNyttSpill(MenuItem item) {
@@ -206,10 +214,44 @@ private    String spillerAnavn;
                     @Override
                     public void doAction(int selection) {
                         Toast.makeText(MainActivity.this, "Neivel", Toast.LENGTH_LONG).show();
-
                     }
                 }
                 , null);
+
+    }
+
+    public static class ResyméDialogFragment extends DialogFragment {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            View resyméView = inflater.inflate(R.layout.resyme, null);
+            builder.setView(resyméView);
+
+            final TextView resymé = (TextView) resyméView.findViewById(R.id.resymé);
+
+            resymé.setText(getResymé());
+            resymé.setTypeface(Typeface.MONOSPACE);
+
+            return builder.create();
+        }
+
+        private String getResymé() {
+            Historikk historikk = new Historikk(getActivity());
+            List<String> spillere = historikk.getSpillere();
+            StringBuilder sb = new StringBuilder(OppsummeringPerSpiller.getOverskrift());
+
+            for (String spiller : spillere) {
+                OppsummeringPerSpiller oppsummeringPerSpiller = historikk.getOppsummeringPerSpiller(spiller);
+                sb.append(oppsummeringPerSpiller.toString()).append('\n');
+            }
+
+            return sb.toString();
+        }
 
     }
 

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,7 @@ import java.util.Set;
  * Created by Dag on 06.08.2017.
  */
 
-public class Historikk {
+public class Historikk  {
     private File csvFile;
     private Context context;
 
@@ -45,7 +46,22 @@ public class Historikk {
             spillere.add(spillresultat.getSpillerB());
         }
 
-        return new ArrayList<>(spillere);
+        List<String> spilereSortert = new ArrayList<>(spillere);
+        Collections.sort(spilereSortert);
+        return spilereSortert;
+    }
+
+    private List<Spillresultat> getResultater(String spillernavn) {
+        List<Spillresultat> alleResultater = les();
+        List<Spillresultat> resultaterForSpiller = new ArrayList<>();
+
+        for (Spillresultat spillresultat : alleResultater) {
+            if (spillresultat.getSpillerA().equals(spillernavn) || spillresultat.getSpillerB().equals(spillernavn)) {
+                resultaterForSpiller.add(spillresultat);
+            }
+        }
+
+        return resultaterForSpiller;
     }
 
     public void leggTil(Spillresultat resultat)  {
@@ -90,4 +106,32 @@ public class Historikk {
         }
         return resultater;
     }
+
+    public OppsummeringPerSpiller getOppsummeringPerSpiller(String spillernavn) {
+        List<Spillresultat> resultater = getResultater(spillernavn);
+        OppsummeringPerSpiller oppsummeringPerSpiller = new OppsummeringPerSpiller(spillernavn, resultater.size());
+
+        for (Spillresultat spillresultat : resultater) {
+            oppsummeringPerSpiller.addSumVarighet(spillresultat.getVarighet());
+
+            oppsummeringPerSpiller.addSumGameSpilt(spillresultat.getGameVunnetA() + spillresultat.getGameVunnetB());
+            if (spillresultat.getSpillerA().equals(spillernavn)) {
+                oppsummeringPerSpiller.addSumGameVunnet(spillresultat.getGameVunnetA());
+                oppsummeringPerSpiller.addSumServegameSpilt(spillresultat.getServegameSpiltA());
+                oppsummeringPerSpiller.addSumServegameVunnet(spillresultat.getServegameVunnetA());
+            } else {
+                oppsummeringPerSpiller.addSumGameVunnet(spillresultat.getGameVunnetB());
+                oppsummeringPerSpiller.addSumServegameSpilt(spillresultat.getServegameSpiltB());
+                oppsummeringPerSpiller.addSumServegameVunnet(spillresultat.getServegameVunnetB());
+            }
+        }
+
+        return oppsummeringPerSpiller;
+    }
+
+
+
+
+
+
 }

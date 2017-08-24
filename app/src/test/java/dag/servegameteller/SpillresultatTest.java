@@ -26,6 +26,7 @@ public class SpillresultatTest {
         assertThat(r1.getDato(), notNullValue());
         assertThat(r1.getSpillerA(), is("A"));
         assertThat(r1.getSpillerB(), is("B"));
+        assertThat(r1.getVarighet(), is(0));
         assertThat(r1.isaBegynte(), is(true));
         assertThat(r1.getGameVunnetA(), is(1));
         assertThat(r1.getServegameSpiltA(), is(2));
@@ -38,6 +39,7 @@ public class SpillresultatTest {
         assertThat(r1.getDato(), is(r2.getDato()));
         assertThat(r1.getSpillerA(), is(r2.getSpillerA()));
         assertThat(r1.getSpillerB(), is(r2.getSpillerB()));
+        assertThat(r1.getVarighet(), is(r2.getVarighet()));
         assertThat(r1.isaBegynte(), is(r2.isaBegynte()));
         assertThat(r1.getGameVunnetA(), is(r2.getGameVunnetA()));
         assertThat(r1.getServegameSpiltA(), is(r2.getServegameSpiltA()));
